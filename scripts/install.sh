@@ -459,17 +459,17 @@ npm install -g pm2
 
 # ----- Starts docker services -----
 
-cd /home/$INVOKING_USER/app_api; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/beeformed; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/beehive; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/beekeeper; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/beeswarm; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/gitbee; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/nucleus_notifications; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/queenbee; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/studentbee; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/tekkom_bot; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/workerbee; git pull; /home/$INVOKING_USER/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/app_api; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/beeformed; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/beehive; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/beekeeper; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/beeswarm; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/gitbee; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/nucleus_notifications; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/queenbee; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/studentbee; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/tekkom_bot; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+cd /home/$INVOKING_USER/workerbee; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
 
 # ----- Starts pm2 services -----
 
