@@ -444,6 +444,7 @@ git clone https://github.com/Login-Linjeforening-for-IT/internal.git
 git clone https://github.com/Login-Linjeforening-for-IT/honeypot.git
 
 # ----- Set script -----
+
 chmod +x /home/$INVOKING_USER/scripts/getSecret.sh
 
 # ----- Changes directory to clone nginx config -----
