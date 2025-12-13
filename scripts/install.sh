@@ -424,9 +424,7 @@ git clone https://github.com/Login-Linjeforening-for-IT/beehive.git
 git clone https://github.com/Login-Linjeforening-for-IT/studentbee.git
 git clone https://github.com/Login-Linjeforening-for-IT/tekkom_bot.git
 git clone https://github.com/Login-Linjeforening-for-IT/beeformed.git
-git clone https://github.com/Login-Linjeforening-for-IT/dizambee.git
 git clone https://github.com/Login-Linjeforening-for-IT/internal.git
-git clone https://github.com/Login-Linjeforening-for-IT/gatherbee.git
 
 # ----- Changes directory to clone nginx config -----
 
@@ -445,14 +443,12 @@ cd /home/$INVOKING_USER/beeformed; git pull; docker compose up --build -d
 cd /home/$INVOKING_USER/beehive; git pull; docker compose up --build -d
 cd /home/$INVOKING_USER/beekeeper; git pull; docker compose up --build -d
 cd /home/$INVOKING_USER/beeswarm; git pull; docker compose up --build -d
-cd /home/$INVOKING_USER/dizambee; git pull; docker compose up --build -d
 cd /home/$INVOKING_USER/gitbee; git pull; docker compose up --build -d
 cd /home/$INVOKING_USER/nucleus_notifications; git pull; docker compose up --build -d
 cd /home/$INVOKING_USER/queenbee; git pull; docker compose up --build -d
 cd /home/$INVOKING_USER/studentbee; git pull; docker compose up --build -d
 cd /home/$INVOKING_USER/tekkom_bot; git pull; docker compose up --build -d
 cd /home/$INVOKING_USER/workerbee; git pull; docker compose up --build -d
-cd /home/$INVOKING_USER/gatherbee; git pull; docker compose up --build -d
 
 # ----- Starts pm2 services -----
 
