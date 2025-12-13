@@ -38,7 +38,16 @@ fetch_env_from_item() {
 
     local content=""
     if [[ -n "$item_json" && "$item_json" != "null" ]]; then
-        content=$(echo "$item_json" | jq -r '.fields[] | select(.value and .value != "") | (.label | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; "")) as $key | select($key != "") | "\($key)=\(.value | gsub("\n"; "\\n"))"' 2>/dev/null || echo "")
+        content=$(echo "$item_json" | jq -r '.fields[] | select(.value and .value != "") | (.label | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; "")) as $key | select($key != "") | "\($key)=\"\(.value | gsub("\""; "\\\""))\""' 2>/dev/null || echo "")
+        if [[ -z "$content" ]]; then
+            local notes_plain
+            notes_plain=$(echo "$item_json" | jq -r '.notesPlain // empty' 2>/dev/null || echo "")
+            if [[ -n "$notes_plain" ]]; then
+                local key
+                key=$(echo "$item" | tr '[:lower:]' '[:upper:]' | sed 's/[^A-Z0-9_]/_/g')
+                content="$key=\"$(echo "$notes_plain" | sed 's/"/\\"/g')\""
+            fi
+        fi
     fi
 
     if [[ -n "$content" ]]; then
