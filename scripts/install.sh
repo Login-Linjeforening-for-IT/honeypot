@@ -493,6 +493,10 @@ deploy workerbee
 deploy internal pm2
 deploy scouterbee pm2
 
+# ----- Fix ownership -----
+
+chown -R $INVOKING_USER:$INVOKING_USER /home/$INVOKING_USER
+
 # ----- Returns to home dir -----
 
 cd /home/$INVOKING_USER
