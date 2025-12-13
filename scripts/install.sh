@@ -493,7 +493,7 @@ deploy workerbee
 deploy internal pm2
 deploy scouterbee pm2
 
-# ----- Fix ownership -----
+# ----- Fixes ownership -----
 
 chown -R $INVOKING_USER:$INVOKING_USER /home/$INVOKING_USER
 
