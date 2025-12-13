@@ -38,7 +38,7 @@ fetch_env_from_item() {
 
     local content=""
     if [[ -n "$item_json" && "$item_json" != "null" ]]; then
-        content=$(echo "$item_json" | jq -r '.fields[] | select(.value and .value != "") | (.label | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; "")) as $key | select($key != "") | "\($key)=\"\(.value | gsub("\""; "\\\""))\""' 2>/dev/null || echo "")
+        content=$(echo "$item_json" | jq -r '.fields[] | select(.value and .value != "") | if (.label | test("notesPlain"; "i")) then (.value | split("\n") | map(select(. != "" and (. | test("="))) | split("=") | {k: .[0] | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; ""), v: .[1:] | join("=")} | select(.k != "") | "\(.k)=\"\(.v | gsub("\""; "\\\""))\"") | join("\n") else (.label | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; "") as $key | select($key != "") | "\($key)=\"\(.value | gsub("\""; "\\\""))\"" end)' 2>/dev/null || echo "")
         if [[ -z "$content" ]]; then
             local notes_plain
             notes_plain=$(echo "$item_json" | jq -r '.notesPlain // empty' 2>/dev/null || echo "")
