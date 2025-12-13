@@ -5,11 +5,13 @@ if [[ $EUID -ne 0 ]]; then
     exit 2
 fi
 
+START_TIME=$(date +%s)
 INVOKING_USER="${SUDO_USER:-root}"
 INVOKING_UID="$(id -u "$INVOKING_USER")"
 INVOKING_GID="$(id -g "$INVOKING_USER")"
 
 echo "🐝 Invoking user: $INVOKING_USER"
+echo "🐝 Start time: $(date)."
 
 # ----- Upgrades VM to latest -----
 
@@ -464,12 +466,21 @@ cd /home/$INVOKING_USER
 echo "🐝 Running containers:"
 docker ps
 
+echo
 echo "🐝 Listening instances:"
 echo "🐝 Port 443:"
 lsof -i :443
 
+echo
 echo "🐝 Port 80:"
 lsof -i :80
 
-echo "🐝 Installation complete. The system will now reboot."
+END_TIME=$(date +%s)
+DURATION=$((END_TIME - START_TIME))
+
+echo "🐝 End time: $(date)."
+echo "🐝 Duration: ${DURATION} seconds."
+echo "🐝 Installation complete."
+echo "🐝 The system will now reboot."
+
 reboot
