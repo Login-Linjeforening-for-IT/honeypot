@@ -471,4 +471,5 @@ lsof -i :443
 echo "🐝 Port 80:"
 lsof -i :80
 
-echo "🐝 Installation complete."
+echo "🐝 Installation complete. The system will now reboot."
+reboot
