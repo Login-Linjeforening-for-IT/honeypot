@@ -11,6 +11,7 @@ INVOKING_USER="${USER:-${SUDO_USER:-root}}"
 set -e
 
 # ----- Colors -----
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -24,7 +25,8 @@ print_success() { echo -e "${GREEN}✅  $1${NC}"; }
 print_warning() { echo -e "${YELLOW}⚠️  $1${NC}"; }
 print_error()   { echo -e "${RED}❌  $1${NC}"; }
 
-# ----- Get Item Secrets -----
+# ----- Fetches secrets -----
+
 fetch_env_from_item() {
     local item="$1"
     local output_path="$2"
@@ -52,20 +54,21 @@ fetch_env_from_item() {
 }
 
 # ----- Main -----
+
 main() {
-    # Check if op CLI is installed
+    # Checks if op CLI is installed
     if ! command -v op &> /dev/null; then
         print_error "1Password CLI (op) is not installed."
         exit 1
     fi
 
-    # Check if jq is installed
+    # Checks if jq is installed
     if ! command -v jq &> /dev/null; then
         print_error "jq is not installed."
         exit 1
     fi
 
-    # Check if signed in
+    # Checks if signed in
     if ! op account get &> /dev/null; then
         print_error "Not signed in to 1Password."
         exit 1

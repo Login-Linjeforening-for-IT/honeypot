@@ -318,7 +318,7 @@ EOF
     echo "0 3 * * * /usr/bin/docker system prune -a --volumes -f >/dev/null 2>&1" \
 ) | crontab -
 
-# ---- Adds alias -----
+# ----- Adds alias -----
 
 cat >> /home/$INVOKING_USER/.bashrc << 'EOF'
 alias cert="cat /etc/cron.d/certbot"
@@ -404,7 +404,7 @@ EOF
 # ----- Reduces swap usage -----
 
 cat > /etc/security/sysctl.conf << 'EOF'
-vm.swappiness = 30
+vm.swappiness = 10
 
 # Reload with `sudo sysctl --system`
 EOF
@@ -443,11 +443,11 @@ git clone https://github.com/Login-Linjeforening-for-IT/beeformed.git
 git clone https://github.com/Login-Linjeforening-for-IT/internal.git
 git clone https://github.com/Login-Linjeforening-for-IT/honeypot.git
 
-# ----- Set script -----
+# ----- Adds execute permission to getSecret script -----
 
 chmod +x /home/$INVOKING_USER/honeypot/scripts/getSecret.sh
 
-# ----- Changes directory to clone nginx config -----
+# ----- Clones nginx config -----
 
 cd /usr/local/openresty/nginx/
 git clone https://github.com/Login-Linjeforening-for-IT/nginx.git
@@ -457,24 +457,41 @@ mv nginx sites-available
 
 npm install -g pm2
 
-# ----- Starts docker services -----
+# ----- Function to start services -----
 
-cd /home/$INVOKING_USER/app_api; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/beeformed; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/beehive; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/beekeeper; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/beeswarm; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/gitbee; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/nucleus_notifications; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/queenbee; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/studentbee; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/tekkom_bot; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
-cd /home/$INVOKING_USER/workerbee; git pull; /home/$INVOKING_USER/honeypot/scripts/getSecret.sh; docker compose up --build -d
+deploy() {
+    local dir="$1"
+    local use_pm2="$2"
+
+    cd "/home/$INVOKING_USER/$dir" || return 1
+    git pull || return 1
+    /home/$INVOKING_USER/honeypot/scripts/getSecret.sh || return 1
+    
+    if [[ "$use_pm2" == "pm2" ]]; then
+        pm2 start src/index.ts --name "$dir" --interpreter node
+    else
+        docker compose up --build -d
+    fi
+}
+
+# ----- Deploys services -----
+
+deploy app_api
+deploy beeformed
+deploy beehive
+deploy beekeeper
+deploy beeswarm
+deploy gitbee
+deploy nucleus_notifications
+deploy queenbee
+deploy studentbee
+deploy tekkom_bot
+deploy workerbee
 
 # ----- Starts pm2 services -----
 
-cd /home/$INVOKING_USER/internal; pm2 start src/index.ts --name internal --interpreter node
-cd /home/$INVOKING_USER/scouterbee; pm2 start src/index.ts --name scouterbee --interpreter node
+deploy internal pm2
+deploy scouterbee pm2
 
 # ----- Returns to home dir -----
 
