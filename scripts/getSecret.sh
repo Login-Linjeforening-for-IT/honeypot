@@ -18,7 +18,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-VAULT_NAME="infra-prod-cluster"
+VAULT_NAME="TekKom Dev"
 
 print_info()    { echo -e "${BLUE}ℹ️  $1${NC}"; }
 print_success() { echo -e "${GREEN}✅  $1${NC}"; }
