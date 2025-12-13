@@ -38,7 +38,7 @@ fetch_env_from_item() {
 
     local content=""
     if [[ -n "$item_json" && "$item_json" != "null" ]]; then
-        content=$(echo "$item_json" | jq -r '.fields[] | select(.value and .value != "" and (.value | test("\n") | not)) | (.label | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; "")) as $key | select($key != "") | "\($key)=\(.value)"' 2>/dev/null || echo "")
+        content=$(echo "$item_json" | jq -r '.fields[] | select(.value and .value != "") | (.label | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; "")) as $key | select($key != "") | "\($key)=\(.value | gsub("\n"; "\\n"))"' 2>/dev/null || echo "")
     fi
 
     if [[ -n "$content" ]]; then
