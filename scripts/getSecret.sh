@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # BeeQuiet | 1Password Secrets
 # 
@@ -37,17 +37,13 @@ fetch_env_from_item() {
     item_json=$(op item get "$item" --vault="$VAULT_NAME" --format json 2>/dev/null || echo "")
 
     local content=""
-    if [[ -n "$item_json" && "$item_json" != "null" ]]; then
-        content=$(echo "$item_json" | jq -r '.fields[] | select(.value and .value != "") | if (.label | test("notesPlain"; "i")) then (.value | split("\n") | map(select(. != "" and (. | test("="))) | split("=") | {k: .[0] | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; ""), v: .[1:] | join("=")} | select(.k != "") | "\(.k)=\"\(.v | gsub("\""; "\\\""))\"") | join("\n") else (.label | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; "") as $key | select($key != "") | "\($key)=\"\(.value | gsub("\""; "\\\""))\"" end)' 2>/dev/null || echo "")
-        if [[ -z "$content" ]]; then
-            local notes_plain
-            notes_plain=$(echo "$item_json" | jq -r '.notesPlain // empty' 2>/dev/null || echo "")
-            if [[ -n "$notes_plain" ]]; then
-                local key
-                key=$(echo "$item" | tr '[:lower:]' '[:upper:]' | sed 's/[^A-Z0-9_]/_/g')
-                content="$key=\"$(echo "$notes_plain" | sed 's/"/\\"/g')\""
-            fi
-        fi
+    
+    if [[ $(echo "$item_json" | jq -r '.category') == "SECURE_NOTE" ]]; then
+        content=$(echo "$item_json" | jq -r '(.fields[]? | select(.purpose == "NOTES") | .value) // .notesPlain // empty' 2>/dev/null)
+    fi
+
+    if [[ -z "$content" && -n "$item_json" && "$item_json" != "null" ]]; then
+        content=$(echo "$item_json" | jq -r '.fields[] | select(.value and .value != "" and .purpose != "NOTES") | (.label | ascii_upcase | gsub(" "; "_") | gsub("[^A-Z0-9_]"; "")) as $key | select($key != "") | "\($key)=\"\(.value | gsub("\""; "\\\""))\""' 2>/dev/null || echo "")
     fi
 
     if [[ -n "$content" ]]; then
