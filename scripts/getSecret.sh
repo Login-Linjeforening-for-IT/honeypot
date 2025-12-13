@@ -75,7 +75,7 @@ main() {
     fi
 
     local path="${1:-$(basename "$PWD")}"
-    local item="$path-secrets"
+    local item="${path}_secrets"
     local output_path="/home/$INVOKING_USER/$path/.env"
 
     fetch_env_from_item "$item" "$output_path"
