@@ -122,7 +122,7 @@ sudo ln -sf /usr/local/openresty/nginx/sites-available/default /usr/local/openre
 sudo mkdir -p /usr/local/openresty/nginx/conf/snippets
 
 cat > /usr/local/openresty/nginx/conf/snippets/errors.conf << 'EOF'
-error_page 400 401 403 404 405 406 408 409 410 418 429 451 500 501 502 503 504 /errors/$status.html;
+error_page 400 401 403 404 405 406 407 408 409 410 418 429 451 500 501 502 503 504 /errors/$status.html;
 
 location ^~ /errors/ {
     alias /usr/local/openresty/nginx/sites-available/fallback/;
