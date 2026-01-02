@@ -1,0 +1,13 @@
+services:
+  registry:
+    image: registry:3
+    container_name: registry
+    ports:
+      - "5000:5000"
+    restart: always
+    volumes:
+      - registry_data:/var/lib/registry
+
+volumes:
+  registry_data:
+    driver: local
