@@ -1,0 +1,22 @@
+version: 0.1
+log:
+  fields:
+    service: registry
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: nosniff
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+  delete:
+    enabled: true
+proxy:
+  remoteurl: https://registry-1.docker.io
+  headers:
+    X-Registry-Auth: $REGISTRY_AUTH
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
