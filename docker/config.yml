@@ -11,10 +11,6 @@ storage:
     rootdirectory: /var/lib/registry
   delete:
     enabled: true
-proxy:
-  remoteurl: https://registry-1.docker.io
-  headers:
-    X-Registry-Auth: $REGISTRY_AUTH
 health:
   storagedriver:
     enabled: true
