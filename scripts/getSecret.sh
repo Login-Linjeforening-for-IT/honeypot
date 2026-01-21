@@ -10,20 +10,12 @@ INVOKING_USER="${USER:-${SUDO_USER:-root}}"
 
 set -e
 
-# ----- Colors -----
-
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
 VAULT_NAME="TekKom Dev"
 
-print_info()    { echo -e "${BLUE}ℹ️  $1${NC}"; }
-print_success() { echo -e "${GREEN}✅  $1${NC}"; }
-print_warning() { echo -e "${YELLOW}⚠️  $1${NC}"; }
-print_error()   { echo -e "${RED}❌  $1${NC}"; }
+print_info()    { echo -e "\033[1;34m\u2139 Info:\033[0m $1"; }
+print_success() { echo -e "\033[1;32m\u2714 Success:\033[0m $1"; }
+print_warning() { echo -e "\033[1;33m\u26A0 Warning:\033[0m $1"; }
+print_error()   { echo -e "\033[1;31m\u2716 Error:\033[0m $1"; }
 
 # ----- Fetches secrets -----
 
